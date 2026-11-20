@@ -118,16 +118,37 @@ export default function Portfolio({ content }: { content: PortfolioContent }) {
   }
   return <main className="overflow-hidden portfolio-page" style={{ '--rose': appearance.accent, '--berry': appearance.dark, '--paper': appearance.paper, '--ink': appearance.ink, '--blush': appearance.blush, '--line': appearance.border, '--hero-glow': appearance.heroGlow, '--contact-tint': appearance.contactTint } as React.CSSProperties}>
 <header className="absolute top-0 left-0 right-0 z-50"><div className="container-wide flex items-center justify-between h-24 border-b border-[var(--line)]"><a href="#top" className="focus-ring text-xl font-semibold tracking-[-.06em]">{site.logo}</a><nav aria-label="Main navigation" className="hidden md:flex items-center gap-8">{nav.map(item=><a key={item.href + item.label} className="focus-ring text-xs uppercase tracking-[.15em] hover:opacity-50 transition" href={item.href}>{item.label}</a>)}</nav>{headerButtonTarget && site.contactButton && <a href={headerButtonTarget} className="hidden md:flex items-center gap-2 text-xs uppercase tracking-[.15em] border-b border-[var(--rose)] pb-1">{site.contactButton} <ArrowUpRight size={15}/></a>}<button aria-label={menuOpen?'Close menu':'Open menu'} aria-expanded={menuOpen} onClick={()=>setMenuOpen(!menuOpen)} className="md:hidden focus-ring p-2">{menuOpen?<X/>:<Menu/>}</button></div>{menuOpen&&<nav aria-label="Mobile navigation" className="mobile-nav md:hidden bg-[var(--paper)] border-b border-[var(--line)] px-6 py-7 flex flex-col gap-5">{nav.map(item=><a key={item.href + item.label} onClick={()=>setMenuOpen(false)} href={item.href} className="text-xl serif">{item.label}</a>)}</nav>}</header>
-<section id="top" className="relative min-h-[790px] min-h-[100svh] flex items-center pt-28 pb-16 hero-surface"><div className="absolute inset-0 grain opacity-40"/><div className={hero.portraitUrl ? 'container-wide relative z-10 hero-with-portrait' : 'container-wide relative z-10'}>
-  {hero.portraitUrl && <figure className="hero-portrait">
-    <img src={hero.portraitUrl} alt={hero.portraitAlt} fetchPriority="high" />
-  </figure>}
-  <div className="hero-copy"><div className="eyebrow mb-8 hero-eyebrow flex items-center gap-3"><span className="w-2 h-2 rounded-full bg-[var(--rose)]"/> {hero.eyebrow}</div><h1 className="serif text-[clamp(5.2rem,14.8vw,14.5rem)] leading-[.74] tracking-[-.065em] hero-name">{hero.extras.showArtwork && <span className="hero-rings" aria-hidden="true"><span className="hero-ring"/><span className="hero-ring"/><span className="hero-ring"/></span>}<span className="relative block hero-name-first">{hero.firstLine}</span><span className="relative block italic font-normal ml-[.15em] hero-name-last text-[var(--rose)]">{hero.secondLine}</span></h1>
-  {hero.urduLine && <figure className="hero-verse">
-    <p lang="ur" dir="rtl" className="urdu-script">{hero.urduLine}</p>
-    {hero.urduTranslation && <figcaption>{hero.urduTranslation}</figcaption>}
-  </figure>}
-  <div className="hero-intro mt-8 md:mt-10 flex flex-col md:flex-row md:items-end justify-between gap-9"><p className="max-w-md text-base md:text-lg leading-relaxed text-neutral-700 whitespace-pre-line">{hero.introduction}</p>{heroTarget && hero.button && <a href={heroTarget} className="group focus-ring flex items-center gap-4 w-fit"><span className="eyebrow">{hero.button}</span><span className="arrow-circle"><ArrowDown size={17}/></span></a>}</div><ExtraContent details={hero.extras} /></div></div><div className="absolute bottom-5 left-0 right-0"><div className="container-wide flex justify-between text-[10px] tracking-[.2em] uppercase text-neutral-600"><span>{hero.status}</span><span className="hidden sm:block">{hero.scrollHint}</span></div></div></section>
+<section id="top" className="hero-surface hero-layout">
+  <div className="absolute inset-0 grain opacity-40" />
+  <div className={hero.portraitUrl ? "container-wide hero-body hero-with-portrait" : "container-wide hero-body"}>
+    <div className="hero-copy">
+      {hero.eyebrow && <div className="eyebrow hero-eyebrow flex items-center gap-3"><span className="size-2 shrink-0 rounded-full bg-[var(--rose)]" />{hero.eyebrow}</div>}
+      <h1 className="serif hero-name">
+        {hero.extras.showArtwork && <span className="hero-rings" aria-hidden="true"><span className="hero-ring" /><span className="hero-ring" /><span className="hero-ring" /></span>}
+        <span className="relative block hero-name-first">{hero.firstLine}</span>
+        <span className="relative block italic font-normal hero-name-last text-[var(--rose)]">{hero.secondLine}</span>
+      </h1>
+      {hero.urduLine && <figure className="hero-verse">
+        <p lang="ur" dir="rtl" className="urdu-script">{hero.urduLine}</p>
+        {hero.urduTranslation && <figcaption>{hero.urduTranslation}</figcaption>}
+      </figure>}
+      {(hero.introduction || (heroTarget && hero.button)) && <div className="hero-intro">
+        {hero.introduction && <p className="max-w-md text-base md:text-lg leading-relaxed text-neutral-700 whitespace-pre-line">{hero.introduction}</p>}
+        {heroTarget && hero.button && <a href={heroTarget} className="group focus-ring hero-action">
+          <span className="eyebrow">{hero.button}</span><span className="arrow-circle shrink-0"><ArrowDown size={17} aria-hidden="true" /></span>
+        </a>}
+      </div>}
+      <ExtraContent details={hero.extras} />
+    </div>
+    {hero.portraitUrl && <figure className="hero-portrait">
+      <img src={hero.portraitUrl} alt={hero.portraitAlt} fetchPriority="high" />
+    </figure>}
+  </div>
+  {(hero.status || hero.scrollHint) && <div className="container-wide hero-meta">
+    {hero.status && <span>{hero.status}</span>}
+    {hero.scrollHint && <span className="hidden sm:block">{hero.scrollHint}</span>}
+  </div>}
+</section>
 {visibleSections.map(section => <ReactFragment key={section.id}>{renderBlocks(section.id)}{sections[section.id]}</ReactFragment>)}
 {renderBlocks('end')}
 <footer className="bg-[var(--berry-deep)] text-white py-9"><div className="container-wide flex flex-col sm:flex-row gap-4 justify-between items-start sm:items-center"><a href="#top" className="font-semibold text-xl tracking-[-.06em]">{site.logo}</a><span className="text-xs text-[#e8b6ca]">© {new Date().getFullYear()} {site.footer}</span><a href="#top" className="text-xs uppercase tracking-widest flex items-center gap-2">{site.backToTop} <ArrowRight size={14} className="-rotate-90"/></a></div></footer>

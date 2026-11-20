@@ -74,3 +74,13 @@
   border: 1px solid var(--line);
   border-radius: .5rem;
 }
+
+.admin-extras {
+  border: 1px solid var(--line);
+  border-radius: .75rem;
+  padding: .75rem;
+  min-width: 0;
+}
+
+.admin-extras summary { cursor: pointer; font-weight: 600; }
+.admin-extras[open] summary { margin-block-end: 1rem; }

@@ -40,6 +40,6 @@ To bring existing edits and uploads to the hosted site, copy the local portfolio
 
 1. Create .env.local in the project directory and set PORTFOLIO_ADMIN_PASSWORD to a long, unique password of at least 16 characters. Restart the server after changing it.
 2. Run npm run dev and open http://localhost:3000/admin. The public portfolio remains available at /.
-3. Edit the content, navigation, appearance, or section order. Add text, quote, or image sections under Custom blocks. Upload images in Hero or in an image block. Select Publish changes to update the public site.
+3. Edit the content, navigation, appearance, or section order. Add text, quote, or image sections under Custom blocks. Open **Images, links, and layout** in each section or card to add an image, extra text, and multiple links or change their layout. Custom blocks also support images and multiple links. Select Publish changes to update the public site.
 
 Edits are stored in .data/portfolio.json. For deployment, run a single Next.js server instance with HTTPS and a persistent writable disk. Set PORTFOLIO_DATA_FILE to an absolute path on that disk if the project directory is read-only or replaced during deployment. Uploaded images live in the images directory beside the JSON file. Back up the JSON file and its images directory to preserve published changes.

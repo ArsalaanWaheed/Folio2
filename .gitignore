@@ -6,3 +6,5 @@ build/
 .data/
 .env*
 !.env.example
+.next-dev/
+.next-backup-*/

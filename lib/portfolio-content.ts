@@ -1,3 +1,17 @@
+export const newLink = { label: '', href: '' };
+
+export const imagePlacements = ['above', 'below', 'left', 'right'];
+export const imageFits = ['contain', 'cover'];
+export const surfaces = ['plain', 'paper', 'blush'];
+
+export const newDetails = {
+  heading: '', body: '', imageUrl: '', imageAlt: '', imagePlacement: 'right',
+  imageFit: 'contain', surface: 'plain', showArtwork: true, links: [] as (typeof newLink)[],
+};
+
+export type ContentDetails = typeof newDetails;
+const defaultDetails = (): ContentDetails => ({ ...newDetails, links: [] });
+
 export const defaultContent = {
   site: {
     title: 'Zuberia Rais | Psychology Portfolio',
@@ -6,10 +20,12 @@ export const defaultContent = {
     socialDescription: 'Exploring the human mind with curiosity and compassion.',
     logo: 'ZR.',
     contactButton: 'Let’s talk',
+    contactButtonUrl: '',
     footer: 'Zuberia Rais · Made with intention.',
     backToTop: 'Back to top',
   },
   hero: {
+    extras: defaultDetails(),
     urduLine: 'دل و ذہن کی جستجو',
     urduTranslation: 'In search of the heart and mind',
     portraitUrl: '/hero-portrait.webp',
@@ -19,10 +35,12 @@ export const defaultContent = {
     secondLine: 'Rais.',
     introduction: 'Curious about the human mind.\nCommitted to understanding people.\nInspired by the possibility of meaningful change.',
     button: 'Discover my story',
+    buttonUrl: '',
     status: 'BA Psychology · Final Year',
     scrollHint: 'Scroll to explore — 2026',
   },
   about: {
+    extras: defaultDetails(),
     eyebrow: '01 / A little about me',
     title: 'The person behind the curiosity.',
     quote: 'To understand the mind is to begin understanding the ',
@@ -33,16 +51,18 @@ export const defaultContent = {
     interests: ['Clinical Psychology', 'Human Behavior', 'Mental Wellbeing'],
   },
   research: {
+    extras: defaultDetails(),
     eyebrow: '02 / Selected explorations',
     title: 'Research & projects.',
     introduction: 'Questions worth asking, ideas worth exploring. The entries below are illustrative concepts, not claims of completed work.',
     projects: [
-      { number: '01', category: 'RESEARCH CONCEPT · SAMPLE', title: 'Understanding Stress & Coping', description: 'An exploratory proposal examining everyday stressors, emotional regulation, and coping strategies among university students.', tags: ['Mental Wellbeing', 'Qualitative Methods'] },
-      { number: '02', category: 'ACADEMIC PROJECT · SAMPLE', title: 'The Psychology of Connection', description: 'A literature-review concept exploring how interpersonal relationships and social support influence psychological wellbeing.', tags: ['Social Psychology', 'Literature Review'] },
-      { number: '03', category: 'CASE STUDY · SAMPLE', title: 'Perspectives on Clinical Assessment', description: 'A sample academic case-study framework focused on ethical observation, reflective practice, and evidence-based assessment.', tags: ['Clinical Psychology', 'Ethics'] },
+      { extras: defaultDetails(), number: '01', category: 'RESEARCH CONCEPT · SAMPLE', title: 'Understanding Stress & Coping', description: 'An exploratory proposal examining everyday stressors, emotional regulation, and coping strategies among university students.', tags: ['Mental Wellbeing', 'Qualitative Methods'] },
+      { extras: defaultDetails(), number: '02', category: 'ACADEMIC PROJECT · SAMPLE', title: 'The Psychology of Connection', description: 'A literature-review concept exploring how interpersonal relationships and social support influence psychological wellbeing.', tags: ['Social Psychology', 'Literature Review'] },
+      { extras: defaultDetails(), number: '03', category: 'CASE STUDY · SAMPLE', title: 'Perspectives on Clinical Assessment', description: 'A sample academic case-study framework focused on ethical observation, reflective practice, and evidence-based assessment.', tags: ['Clinical Psychology', 'Ethics'] },
     ],
   },
   education: {
+    extras: defaultDetails(),
     eyebrow: '03 / Academic foundation',
     title: 'Learning, always.',
     status: 'Current · Fourth year',
@@ -53,24 +73,27 @@ export const defaultContent = {
     graduation: 'To be confirmed',
   },
   skills: {
+    extras: defaultDetails(),
     eyebrow: '04 / What I’m developing',
     title: 'Skills & strengths.',
     cards: [
-      { icon: 'brain', title: 'Research & Analysis', items: ['Literature reviews', 'Research design fundamentals', 'Qualitative analysis'] },
-      { icon: 'heart', title: 'Human-Centered Practice', items: ['Active listening', 'Empathetic communication', 'Ethical awareness'] },
-      { icon: 'book', title: 'Academic Foundations', items: ['Psychological theories', 'Clinical psychology concepts', 'Academic writing'] },
+      { extras: defaultDetails(), icon: 'brain', title: 'Research & Analysis', items: ['Literature reviews', 'Research design fundamentals', 'Qualitative analysis'] },
+      { extras: defaultDetails(), icon: 'heart', title: 'Human-Centered Practice', items: ['Active listening', 'Empathetic communication', 'Ethical awareness'] },
+      { extras: defaultDetails(), icon: 'book', title: 'Academic Foundations', items: ['Psychological theories', 'Clinical psychology concepts', 'Academic writing'] },
     ],
     note: 'Suggested skill categories — adjust to reflect actual proficiency.',
   },
   experience: {
+    extras: defaultDetails(),
     eyebrow: '05 / Beyond the classroom',
     title: 'Experience & growth.',
     cards: [
-      { icon: 'heart', category: 'Internships', title: 'Learning through practice.', description: 'Add supervised internships, observational placements, volunteering, or relevant field experience here. Include organization, dates, role, and responsibilities once confirmed.', status: 'Awaiting verified details' },
-      { icon: 'document', category: 'Certifications', title: 'A commitment to learning.', description: 'Feature relevant workshops, seminars, short courses, and certifications in psychology or research methods. Add credential links where available.', status: 'Awaiting verified details' },
+      { extras: defaultDetails(), icon: 'heart', category: 'Internships', title: 'Learning through practice.', description: 'Add supervised internships, observational placements, volunteering, or relevant field experience here. Include organization, dates, role, and responsibilities once confirmed.', status: 'Awaiting verified details' },
+      { extras: defaultDetails(), icon: 'document', category: 'Certifications', title: 'A commitment to learning.', description: 'Feature relevant workshops, seminars, short courses, and certifications in psychology or research methods. Add credential links where available.', status: 'Awaiting verified details' },
     ],
   },
   contact: {
+    extras: defaultDetails(),
     eyebrow: '06 / Start a conversation',
     title: 'Let’s connect.',
     description: 'Open to thoughtful conversations about psychology, research, academic opportunities, and meaningful collaborations.',
@@ -101,6 +124,7 @@ export const defaultContent = {
 export const newBlock = {
   title: '', eyebrow: '', body: '', layout: 'text', imageUrl: '', imageAlt: '',
   linkLabel: '', linkUrl: '', anchor: '', placement: 'end',
+  links: [] as (typeof newLink)[], imagePlacement: 'right', imageFit: 'contain', surface: 'paper',
 };
 
 export const defaultPortfolio = { ...defaultContent, blocks: [] as (typeof newBlock)[] };

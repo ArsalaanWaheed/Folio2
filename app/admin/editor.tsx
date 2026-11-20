@@ -1,7 +1,7 @@
 'use client';
 
 import { createContext, useContext, useId, useState } from 'react';
-import { defaultPortfolio, icons, layouts, placements, newBlock, type PortfolioContent } from '../../lib/portfolio-content';
+import { defaultPortfolio, icons, imageFits, imagePlacements, layouts, placements, surfaces, newBlock, newLink, type PortfolioContent } from '../../lib/portfolio-content';
 import { publish } from './actions';
 
 type Field = string | boolean | Field[] | { [key: string]: Field };
@@ -13,6 +13,9 @@ const groups: [Group, string][] = [
 ];
 
 const friendlyNames: Record<string, string> = {
+  heading: 'Additional heading', body: 'Additional text', showArtwork: 'Show original artwork',
+  buttonUrl: 'Hero button destination (optional)', contactButtonUrl: 'Header button destination (optional)',
+  surface: 'Content background', imagePlacement: 'Image placement', imageFit: 'Image fit',
   urduLine: 'Urdu verse', urduTranslation: 'English translation', portraitUrl: 'Portrait image', portraitAlt: 'Portrait description', anchor: 'Navigation anchor (optional)', placement: 'Place before', paper: 'Page background', ink: 'Main text', imageUrl: 'Block image', imageAlt: 'Image description', linkUrl: 'Link URL',
   href: 'Destination URL or section anchor', linkedin: 'LinkedIn URL', linkedinLabel: 'LinkedIn link label',
 };
@@ -22,7 +25,7 @@ const multiline = new Set(['description', 'socialDescription', 'introduction', '
 function emptyItem(template: Field, key = ''): Field {
   if (Array.isArray(template)) return [];
   if (typeof template === 'object') return Object.fromEntries(Object.entries(template).map(([name, value]) => [name, emptyItem(value, name)]));
-  return typeof template === 'string' && !['icon', 'layout', 'placement'].includes(key) ? '' : template;
+  return typeof template === 'string' && !['icon', 'layout', 'placement', 'imagePlacement', 'imageFit', 'surface'].includes(key) ? '' : template;
 }
 
 const UploadContext = createContext<(busy: boolean) => void>(() => undefined);
@@ -75,7 +78,7 @@ function ImageField({ name, value, onChange }: { name: string; value: string; on
 function ContentField({ name, value, template, onChange }: { name: string; value: Field; template: Field; onChange: (value: Field) => void }) {
   const id = useId();
   if (Array.isArray(value)) {
-    const itemTemplate = name === 'blocks' ? newBlock : (template as Field[])[0];
+    const itemTemplate = name === 'blocks' ? newBlock : name === 'links' ? newLink : (template as Field[])[0];
     const sections = name === 'sections';
     function move(index: number, offset: number) {
       const next = [...value as Field[]];
@@ -101,27 +104,32 @@ function ContentField({ name, value, template, onChange }: { name: string; value
         </div>;
       })}
       {!sections && <button suppressHydrationWarning type="button" disabled={value.length >= 60} onClick={() => onChange([...value, emptyItem(itemTemplate)])}>
-        {name === 'blocks' ? 'Add block' : 'Add item'}
+        {name === 'blocks' ? 'Add block' : name === 'links' ? 'Add link' : 'Add item'}
       </button>}
     </fieldset>;
   }
   if (typeof value === 'object') {
-    return <div className="admin-fields">
+    const fields = <div className="admin-fields">
       {Object.entries(value).filter(([key]) => key !== 'id').map(([key, field]) => (
         <ContentField key={key} name={key} value={field} template={(template as Record<string, Field>)[key]}
           onChange={next => onChange({ ...value, [key]: next })} />
       ))}
     </div>;
+    return name === 'extras' ? <details className="admin-extras">
+      <summary>Images, links, and layout</summary>
+      {fields}
+    </details> : fields;
   }
   if (typeof value === 'boolean') {
-    return <label className="admin-toggle"><input suppressHydrationWarning type="checkbox" checked={value} onChange={event => onChange(event.target.checked)} /> Show on portfolio</label>;
+    return <label className="admin-toggle"><input suppressHydrationWarning type="checkbox" checked={value} onChange={event => onChange(event.target.checked)} /> {name === 'visible' ? 'Show on portfolio' : labelFor(name)}</label>;
   }
   if (name === 'portraitUrl' || name === 'imageUrl') return <ImageField name={name} value={value} onChange={onChange} />;
-  const options = name === 'icon' ? icons : name === 'layout' ? layouts : name === 'placement' ? placements : null;
+  const options: Record<string, string[]> = { icon: icons, layout: layouts, placement: placements, imagePlacement: imagePlacements, imageFit: imageFits, surface: surfaces };
+  const choices = options[name];
   return <div className="admin-field">
     <label htmlFor={id}>{labelFor(name)}</label>
-    {options ? <select id={id} value={value} onChange={event => onChange(event.target.value)}>
-      {options.map(option => <option key={option} value={option}>{option === 'end' ? 'End of page' : labelFor(option)}</option>)}
+    {choices ? <select id={id} value={value} onChange={event => onChange(event.target.value)}>
+      {choices.map(option => <option key={option} value={option}>{option === 'end' ? 'End of page' : labelFor(option)}</option>)}
     </select> : multiline.has(name) ? <textarea rows={3} id={id} value={value} maxLength={12000} onChange={event => onChange(event.target.value)} />
       : <input suppressHydrationWarning id={id} type={['accent', 'dark', 'paper', 'ink', 'blush', 'border', 'heroGlow', 'contactTint'].includes(name) ? 'color' : 'text'} value={value} maxLength={12000} onChange={event => onChange(event.target.value)} />}
   </div>;

@@ -282,7 +282,7 @@
 
 @media (max-width: 639px) {
   .portfolio-page .reflection-card:has(.reflection-sketch) { grid-template-columns: minmax(0, 1fr); }
-  .reflection-sketch { width: min(48%, 9rem); justify-self: end; }
+  .reflection-sketch { width: min(48%, 9rem); justify-self: start; }
   .research-heading { grid-template-columns: minmax(0, 1fr); }
   .research-heading .research-sketch { grid-area: 2 / 1; width: min(50%, 11rem); justify-self: end; }
 }
@@ -454,6 +454,7 @@
 }
 
 @media (max-width: 959px) {
+  .hero-rings { display: none; }
   .hero-with-portrait .hero-portrait { width: min(76%, 21rem); }
 }
 

@@ -43,3 +43,14 @@ To bring existing edits and uploads to the hosted site, copy the local portfolio
 3. Edit the content, navigation, appearance, or section order. Add text, quote, or image sections under Custom blocks. Open **Images, links, and layout** in each section or card to add an image, extra text, and multiple links or change their layout. Custom blocks also support images and multiple links. Select Publish changes to update the public site.
 
 Edits are stored in .data/portfolio.json. For deployment, run a single Next.js server instance with HTTPS and a persistent writable disk. Set PORTFOLIO_DATA_FILE to an absolute path on that disk if the project directory is read-only or replaced during deployment. Uploaded images live in the images directory beside the JSON file. Back up the JSON file and its images directory to preserve published changes.
+
+## Keep edits on Render Free
+
+Render Free discards its local filesystem when it sleeps or restarts. Configure a Supabase project to retain published content and uploads independently of Render.
+
+1. Create a Supabase project and run the contents of supabase.sql in its SQL Editor.
+2. In the Render web service's Environment settings, add SUPABASE_URL (the project URL) and SUPABASE_SECRET_KEY (the server-side sb_secret_ key). Keep the existing PORTFOLIO_ADMIN_PASSWORD. Keep the Supabase key out of GitHub and browser code.
+3. Redeploy and publish a test edit. Restart the Render service and verify that the edit and any uploaded image remain visible.
+
+The first deploy with a new database shows the bundled default portfolio. Existing saved files are not copied automatically. Save copies of any existing content and images before switching storage, then republish or re-upload them. When both Supabase variables are unset, the project uses local file storage as before.
+Supabase Free can pause after a week of low activity. A paused project retains its data and can be resumed in the Supabase dashboard.

@@ -34,6 +34,6 @@ export async function publish(input: unknown, revision: string) {
     return { revision: nextRevision };
   } catch (error) {
     console.error('Portfolio publish failed', error);
-    return { error: 'Publishing failed. Check the server’s data directory and try again.' };
+    return { error: 'Publishing failed. Check the server’s storage configuration and try again.' };
   }
 }
